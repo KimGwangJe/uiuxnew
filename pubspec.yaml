@@ -1,0 +1,40 @@
+name: uiux_project
+description: A new Flutter project.
+
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=2.19.2 <3.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  google_ml_vision: ^0.0.7
+  image_picker: ^0.8.4+4
+  http: ^0.13.3
+
+  cupertino_icons: ^1.0.5
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^2.0.0
+
+flutter:
+
+  assets:
+    - assets/images/
+  fonts:
+    - family: Gmarket
+      fonts:
+        - asset: assets/fonts/GmarketSansTTFMedium.ttf
+          weight: 500
+    - family: Jamsil
+      fonts:
+        - asset: assets/fonts/TheJamsil1Thin.ttf
+          weight: 500
+
+  uses-material-design: true
