@@ -81,6 +81,7 @@ class _Recommend extends State<Recommend> {
           body: Stack(
             children: [
               SingleChildScrollView(
+                // 스크롤 가능
                 child: Column(
                   children: [
                     Container(
@@ -88,7 +89,7 @@ class _Recommend extends State<Recommend> {
                       child: (Column(children: [
                         Container(
                           width: MediaQuery.of(context).size.width,
-                          child: gptquery == ''
+                          child: gptquery == '' //질문을 입력하지 않았다면
                               ? Column(
                                   children: [
                                     Padding(
@@ -186,6 +187,7 @@ class _Recommend extends State<Recommend> {
                                   ],
                                 )
                               : Container(
+                                  //질문이 전송되었다면
                                   width: MediaQuery.of(context).size.width,
                                   child: SingleChildScrollView(
                                     child: Column(
@@ -217,7 +219,7 @@ class _Recommend extends State<Recommend> {
                                               padding:
                                                   const EdgeInsets.all(8.0),
                                               child: Text(
-                                                '$gptquery',
+                                                '$gptquery', // 질문 내용
                                                 style: TextStyle(
                                                     fontSize: 20,
                                                     color: Colors.black,
@@ -233,15 +235,16 @@ class _Recommend extends State<Recommend> {
                                             decoration: BoxDecoration(
                                               color: Colors.black26,
                                               borderRadius:
-                                                  BorderRadius.circular(10.0),
+                                                  BorderRadius.circular(
+                                                      10.0), //둥글기
                                               boxShadow: [
                                                 BoxShadow(
+                                                  //container의 그림자 설정
                                                   color: Colors.grey
                                                       .withOpacity(0.2),
                                                   spreadRadius: 5,
                                                   blurRadius: 7,
-                                                  offset: Offset(0,
-                                                      3), // changes position of shadow
+                                                  offset: Offset(0, 3),
                                                 ),
                                               ],
                                             ),
@@ -253,7 +256,7 @@ class _Recommend extends State<Recommend> {
                                               padding:
                                                   const EdgeInsets.all(8.0),
                                               child: Text(
-                                                '$_generatedText',
+                                                '$_generatedText', //gpt의 대답
                                                 style: TextStyle(
                                                     fontSize: 20,
                                                     color: Colors.white,
@@ -273,6 +276,7 @@ class _Recommend extends State<Recommend> {
                 ),
               ),
               Positioned(
+                //화면 제일 아래에 고정
                 left: 0,
                 right: 0,
                 bottom: 0,
@@ -302,12 +306,13 @@ class _Recommend extends State<Recommend> {
                           if (_textValue != '') {
                             setState(() {
                               gptquery = _textValue +
-                                  '을(를) 위해 사용 할 수 있는\n툴을 사용자들이 선호하는 순서로\n 보여드리겠습니다.';
+                                  '을(를) 위해 사용 할 수 있는\n변수, 클래스, 함수명을\n 각각 3개씩 보여드리겠습니다.'; //화면에 보여줄
                               String prompt =
-                                  "사용자가 적은 질문: $_textValue\n변수, 클래스, 함수명을 각각3개 씩만 추천하고 답'삭제해줘 ";
+                                  "사용자가 적은 질문: $_textValue\n변수, 클래스, 함수명을 각각3개 씩만 추천하고 답'삭제해줘 "; //gpt에게 전해지는 질문
                               generateText(prompt);
                               _generatedText = '';
-                              showActivityIndicator = true;
+                              showActivityIndicator =
+                                  true; //indicator를 돌려서 아직 요청이 완료되지않음을 표시
                             });
                           }
                           FocusScope.of(context).unfocus(); // 키보드 내림
@@ -325,13 +330,15 @@ class _Recommend extends State<Recommend> {
                               );
                             },
                             child: _generatedText.isEmpty
-                                ? showActivityIndicator
+                                ? showActivityIndicator //true라면 indicator를 돌린다.
                                     ? CupertinoActivityIndicator()
                                     : Icon(
+                                        //false라면 사용자가 질문을 할 수 있는 버튼으로 바꾼다.
                                         CupertinoIcons.paperplane,
                                         color: Colors.black,
                                       )
                                 : Icon(
+                                    //비어있지 않다면 다시 질문 가능!
                                     CupertinoIcons.paperplane,
                                     color: Colors.black,
                                   ),

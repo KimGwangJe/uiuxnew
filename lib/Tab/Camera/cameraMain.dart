@@ -13,12 +13,13 @@ class CameraMain extends StatefulWidget {
 }
 
 class _CameraMain extends State<CameraMain> {
-  double _bottomSheetHeight = 550;
+  double _bottomSheetHeight = 550; //사진 선택 탭의 초기 높이
   final picker = ImagePicker();
-  bool _isSecondContainerOpen = true;
-  String title = '추천';
+  bool _isSecondContainerOpen = true; //사진 선택하기 탭
+  String title = ''; //appbar 이름
   String _extractedText = ''; //이미지에서 추출된 텍스트
   String _aftergptText = ''; //gpt를 거치고난 텍스트
+  bool _isLoading = false; // gpt의 답 로딩
 
   Future<File?> _pickImage() async {
     //갤러리에서  이미지를 선택하는 함수
@@ -114,7 +115,7 @@ class _CameraMain extends State<CameraMain> {
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          '$title',
+          '$title', //title은 초기값 ''에서 원하는 메뉴 선택시 바뀜
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Color.fromRGBO(73, 73, 73, 1),
@@ -123,9 +124,10 @@ class _CameraMain extends State<CameraMain> {
         children: [
           Positioned.fill(
             child: Container(
-              height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height, //최대 height
+              width: MediaQuery.of(context).size.width, //최대 width
               child: SingleChildScrollView(
+                //스크롤 가능하게
                 child: Column(
                   children: [
                     Padding(
@@ -176,13 +178,16 @@ class _CameraMain extends State<CameraMain> {
                         width: MediaQuery.of(context).size.width / 1.2,
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            '$_aftergptText',
-                            style: TextStyle(
-                                fontSize: 20,
-                                color: Colors.white,
-                                fontFamily: 'Gmarket'),
-                          ),
+                          child: _isLoading
+                              ? CupertinoActivityIndicator() // showActivityIndicator를 표시하는 위젯을 여기에 추가
+                              : Text(
+                                  _aftergptText,
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.white,
+                                    fontFamily: 'Gmarket',
+                                  ),
+                                ),
                         ),
                       ),
                     ),
@@ -192,6 +197,7 @@ class _CameraMain extends State<CameraMain> {
             ),
           ),
           AnimatedPositioned(
+            // 올라오는 화면의 애니메이션 지정
             duration: Duration(milliseconds: 500),
             curve: Curves.easeInOut,
             bottom: 0,
@@ -224,22 +230,22 @@ class _CameraMain extends State<CameraMain> {
                     onTap: () {
                       setState(() {
                         if (_isSecondContainerOpen) {
-                          _isSecondContainerOpen = false;
-                          _bottomSheetHeight = 40;
+                          _isSecondContainerOpen = false; // 닫기
+                          _bottomSheetHeight = 40; // 최소 40
                         } else {
-                          _isSecondContainerOpen = true;
-                          _bottomSheetHeight = 550;
+                          _isSecondContainerOpen = true; //열기
+                          _bottomSheetHeight = 550; // 최소 550
                         }
                       });
                     },
                     child: _isSecondContainerOpen == false
                         ? Icon(
                             Icons.keyboard_arrow_up_rounded,
-                            size: 35,
+                            size: 35, //닫혔을때는 올라가는 버튼모양
                           )
                         : Icon(
-                            Icons.slideshow,
-                            size: 50,
+                            Icons.keyboard_arrow_down_rounded,
+                            size: 35, // 열렸을때는 닫는 모양
                           ),
                   ),
                   Expanded(
@@ -251,199 +257,289 @@ class _CameraMain extends State<CameraMain> {
                           padding: const EdgeInsets.only(top: 8.0),
                           child: Column(
                             children: [
-                              ElevatedButton(
-                                onPressed: () async {
-                                  showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return Dialog(
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(20.0),
-                                        ),
-                                        child: Container(
-                                          height: 200,
-                                          width: 300,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(20.0),
-                                          ),
-                                          child: Column(
-                                            children: [
-                                              Container(
-                                                decoration: BoxDecoration(
-                                                  border: Border(
-                                                    bottom: BorderSide(
-                                                      color: Colors.black,
-                                                      width: 3.0,
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    top: 25.0, bottom: 20),
+                                child: Text(
+                                  'Warning',
+                                  style: TextStyle(
+                                      fontSize: 35,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'Jamsil'),
+                                ),
+                              ),
+                              Container(
+                                height: 55,
+                                width: 350,
+                                color: Color.fromRGBO(246, 246, 246, 1),
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top: 8.0),
+                                  child: Text(
+                                    '코드에 줄번호가 같이 인식 될 시 \n텍스트가 정상적으로 추출 되지 않을 수 있습니다.',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontSize: 17, fontFamily: 'Jamsil'),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 10.0),
+                                child: Container(
+                                  height: 55,
+                                  width: 350,
+                                  color: Color.fromRGBO(246, 246, 246, 1),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(top: 8.0),
+                                    child: Text(
+                                      '주석이 이미 달려있는 코드를 인식 할 시 \n텍스트가 정상적으로 추출 되지 않을 수 있습니다.',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          fontSize: 17, fontFamily: 'Jamsil'),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 50.0),
+                                child: SizedBox(
+                                  height: 62,
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      primary: Color.fromRGBO(73, 73, 73, 1),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(80.0),
+                                      ),
+                                    ),
+                                    onPressed: () async {
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return Dialog(
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(20.0),
+                                            ),
+                                            child: Container(
+                                              height: 200,
+                                              width: 300,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(20.0),
+                                              ),
+                                              child: Column(
+                                                children: [
+                                                  Container(
+                                                    decoration: BoxDecoration(
+                                                      border: Border(
+                                                        bottom: BorderSide(
+                                                          color: Colors.black,
+                                                          width: 3.0,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    height: 120,
+                                                    child: Center(
+                                                      child: Text(
+                                                        '원하는 작업을 선택해주세요.',
+                                                        style: TextStyle(
+                                                            fontSize: 24,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontFamily:
+                                                                'Gmarket'),
+                                                      ),
                                                     ),
                                                   ),
-                                                ),
-                                                height: 120,
-                                                child: Center(
-                                                  child: Text(
-                                                    '원하는 작업을 선택해주세요.',
-                                                    style: TextStyle(
-                                                        fontSize: 24,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontFamily: 'Gmarket'),
-                                                  ),
-                                                ),
-                                              ),
-                                              Container(
-                                                height: 80,
-                                                child: Row(children: [
-                                                  GestureDetector(
-                                                    onTap: () async {
-                                                      Navigator.pop(context);
-                                                      setState(() async {
-                                                        _isSecondContainerOpen =
-                                                            false;
-                                                        _bottomSheetHeight =
-                                                            100;
-                                                        title = '오류 수정';
-                                                        _extractedText =
-                                                            '오류 수정 ';
-                                                        _aftergptText = '답';
-                                                        final File? imageFile =
-                                                            await _pickImage(); //pickImage함수를 통해 선택한 이미지를 저장
-
-                                                        if (imageFile != null) {
-                                                          //이미지가 선택됐을시
-                                                          final String
-                                                              imagePath =
-                                                              imageFile
-                                                                  .path; // 이미지파일의 경로를 imagePath에 저장
-
-                                                          //  이미지에서 코드 추출
-                                                          final String code =
-                                                              await _extractCodeFromImage(
-                                                                  imagePath);
-                                                          final String prompt =
-                                                              'Please fix this code so it works correctly and tell me in korean where and why these errors are occured from first to last and write fixed code:';
-                                                          //  GPT API 호출
-                                                          final String
-                                                              aftergptCode =
-                                                              await _aftergptCode(
-                                                                  code, prompt);
-
-                                                          //  원문코드와 오류가수정된 코드를 각각 '오류수정'과 '답'칸에 출력
+                                                  Container(
+                                                    height: 80,
+                                                    child: Row(children: [
+                                                      GestureDetector(
+                                                        onTap: () async {
+                                                          Navigator.pop(
+                                                              context); //닫기
                                                           setState(() {
-                                                            _aftergptText =
-                                                                aftergptCode;
-                                                            _extractedText =
-                                                                code;
+                                                            _isSecondContainerOpen =
+                                                                false;
+                                                            _bottomSheetHeight =
+                                                                40;
+                                                            _isLoading = true;
                                                           });
-                                                        }
-                                                      });
-                                                    },
-                                                    child: Container(
-                                                      height: 80,
-                                                      decoration: BoxDecoration(
-                                                        border: Border(
-                                                          right: BorderSide(
-                                                            color: Colors.black,
-                                                            width: 3.0,
+                                                          setState(() async {
+                                                            title = '오류 수정';
+                                                            _extractedText =
+                                                                '오류 수정 ';
+                                                            final File?
+                                                                imageFile =
+                                                                await _pickImage(); //pickImage함수를 통해 선택한 이미지를 저장
+
+                                                            if (imageFile !=
+                                                                null) {
+                                                              //이미지가 선택됐을시
+                                                              final String
+                                                                  imagePath =
+                                                                  imageFile
+                                                                      .path; // 이미지파일의 경로를 imagePath에 저장
+
+                                                              //  이미지에서 코드 추출
+                                                              final String
+                                                                  code =
+                                                                  await _extractCodeFromImage(
+                                                                      imagePath);
+                                                              final String
+                                                                  prompt =
+                                                                  'Please fix this code so it works correctly and tell me in korean where and why these errors are occured from first to last and write fixed code:';
+                                                              //  GPT API 호출
+                                                              final String
+                                                                  aftergptCode =
+                                                                  await _aftergptCode(
+                                                                      code,
+                                                                      prompt);
+
+                                                              //  원문코드와 오류가수정된 코드를 각각 '오류수정'과 '답'칸에 출력
+                                                              setState(() {
+                                                                _aftergptText =
+                                                                    aftergptCode;
+                                                                _extractedText =
+                                                                    code;
+                                                                _isLoading =
+                                                                    false;
+                                                              });
+                                                            }
+                                                          });
+                                                        },
+                                                        child: Container(
+                                                          height: 80,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            border: Border(
+                                                              right: BorderSide(
+                                                                color: Colors
+                                                                    .black,
+                                                                width: 3.0,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          width: 150,
+                                                          child: Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              const Icon(
+                                                                CupertinoIcons
+                                                                    .brightness_solid,
+                                                                size: 24,
+                                                              ),
+                                                              Text(
+                                                                '오류 수정',
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        20,
+                                                                    fontFamily:
+                                                                        'Gmarket'),
+                                                              ),
+                                                            ],
                                                           ),
                                                         ),
                                                       ),
-                                                      width: 150,
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          const Icon(
-                                                            CupertinoIcons
-                                                                .brightness_solid,
-                                                            size: 24,
-                                                          ),
-                                                          Text(
-                                                            '오류 수정',
-                                                            style: TextStyle(
-                                                                fontSize: 20,
-                                                                fontFamily:
-                                                                    'Gmarket'),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  GestureDetector(
-                                                    onTap: () async {
-                                                      Navigator.pop(context);
-                                                      setState(() async {
-                                                        _isSecondContainerOpen =
-                                                            false;
-                                                        _bottomSheetHeight = 40;
-                                                        title = '주석 처리';
-                                                        _extractedText = '주석';
-                                                        _aftergptText = '답';
-
-                                                        final File? imageFile =
-                                                            await _pickImage();
-
-                                                        if (imageFile != null) {
-                                                          final String
-                                                              imagePath =
-                                                              imageFile.path;
-                                                          final String prompt =
-                                                              '코드의 처음부터 한글로 주석을달아줘:';
-                                                          //  이미지에서 코드 추출
-                                                          final String code =
-                                                              await _extractCodeFromImage(
-                                                                  imagePath);
-
-                                                          // GPT API 호출
-                                                          final String
-                                                              aftergptCode =
-                                                              await _aftergptCode(
-                                                                  code, prompt);
-
-                                                          //  주석 추가
+                                                      GestureDetector(
+                                                        onTap: () async {
+                                                          Navigator.pop(
+                                                              context); //닫기
                                                           setState(() {
-                                                            _aftergptText =
-                                                                aftergptCode;
-                                                            _extractedText =
-                                                                code;
+                                                            _isSecondContainerOpen =
+                                                                false;
+                                                            _bottomSheetHeight =
+                                                                40;
+                                                            _isLoading = true;
                                                           });
-                                                        }
-                                                      });
-                                                    },
-                                                    child: Container(
-                                                      width: 150,
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          const Icon(
-                                                            CupertinoIcons
-                                                                .bubble_left_bubble_right_fill,
-                                                            size: 24,
+                                                          setState(() async {
+                                                            _isSecondContainerOpen =
+                                                                false;
+                                                            _bottomSheetHeight =
+                                                                40;
+                                                            title = '주석 처리';
+                                                            _extractedText =
+                                                                '주석';
+
+                                                            final File?
+                                                                imageFile =
+                                                                await _pickImage();
+
+                                                            if (imageFile !=
+                                                                null) {
+                                                              final String
+                                                                  imagePath =
+                                                                  imageFile
+                                                                      .path;
+                                                              final String
+                                                                  prompt =
+                                                                  '코드의 처음부터 한글로 주석을달아줘:';
+                                                              //  이미지에서 코드 추출
+                                                              final String
+                                                                  code =
+                                                                  await _extractCodeFromImage(
+                                                                      imagePath);
+
+                                                              // GPT API 호출
+                                                              final String
+                                                                  aftergptCode =
+                                                                  await _aftergptCode(
+                                                                      code,
+                                                                      prompt);
+                                                              //  주석 추가
+                                                              setState(() {
+                                                                _aftergptText =
+                                                                    aftergptCode;
+                                                                _extractedText =
+                                                                    code;
+                                                                _isLoading =
+                                                                    false;
+                                                              });
+                                                            }
+                                                          });
+                                                        },
+                                                        child: Container(
+                                                          width: 150,
+                                                          child: Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              const Icon(
+                                                                CupertinoIcons
+                                                                    .bubble_left_bubble_right_fill,
+                                                                size: 24,
+                                                              ),
+                                                              Text(
+                                                                '주석 처리',
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        20,
+                                                                    fontFamily:
+                                                                        'Gmarket'),
+                                                              ),
+                                                            ],
                                                           ),
-                                                          Text(
-                                                            '주석 처리',
-                                                            style: TextStyle(
-                                                                fontSize: 20,
-                                                                fontFamily:
-                                                                    'Gmarket'),
-                                                          ),
-                                                        ],
+                                                        ),
                                                       ),
-                                                    ),
-                                                  ),
-                                                ]),
-                                              )
-                                            ],
-                                          ),
-                                        ),
+                                                    ]),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          );
+                                        },
                                       );
                                     },
-                                  );
-                                },
-                                child: Text('사진 가져오기'),
+                                    child: Icon(
+                                      Icons.image,
+                                      color: Colors.white,
+                                      size: 28,
+                                    ),
+                                  ),
+                                ),
                               ),
                             ],
                           ),

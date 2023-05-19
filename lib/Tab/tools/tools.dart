@@ -61,6 +61,32 @@ class _Tools extends State<Tools> {
     'assets/images/vue.png',
     'assets/images/wordpress.png',
     'assets/images/xcode.png',
+    'assets/images/corona.png',
+    'assets/images/sdk.png',
+    'assets/images/koding.png',
+    'assets/images/appmaker.png',
+    'assets/images/ios.png',
+    'assets/images/stroyboard.png',
+    'assets/images/uikit.png',
+    'assets/images/nodejs.png',
+    'assets/images/apache.png',
+    'assets/images/nginx.png',
+    'assets/images/python.png',
+    'assets/images/tensorflow.png',
+    'assets/images/pytorch.png',
+    'assets/images/caffe.png',
+    'assets/images/CAFFE.png',
+    'assets/images/mxnet.png',
+    'assets/images/cntk.png',
+    'assets/images/theano.png',
+    'assets/images/dlib.png',
+    'assets/images/go.png',
+    'assets/images/js.png',
+    'assets/images/ios.png',
+    'assets/images/los.png',
+    'assets/images/FIREBASE.png',
+    'assets/images/scikitlearn.png',
+    'assets/images/chainer.png',
   ];
 
   Future<void> generateText(String prompt) async {
@@ -155,7 +181,7 @@ class _Tools extends State<Tools> {
                     Container(
                       height: MediaQuery.of(context).size.height, // 높이를 제한합니다.
                       child: gptquery == ''
-                          ? FirstScreen()
+                          ? FirstScreen() //질문이 아직 없다면 처음 화면만을 보여준다.
                           : Column(
                               children: [
                                 Padding(

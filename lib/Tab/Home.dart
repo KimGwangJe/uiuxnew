@@ -22,6 +22,7 @@ class _Home extends State<Home> {
         body: Container(
           color: Colors.white,
           child: Column(
+            //홈화면 소개
             children: [
               Padding(
                 padding: const EdgeInsets.only(top: 50.0, bottom: 10),

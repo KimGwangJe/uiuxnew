@@ -10,6 +10,7 @@ void main() {
 }
 
 class SplashScreen extends StatelessWidget {
+  // 처음 어플에 들어오면 3초동안 보여지는 화면
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,7 +59,7 @@ class _MyApp extends State<MyApp> with SingleTickerProviderStateMixin {
 
     _animationController = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 3),
+      duration: const Duration(seconds: 3), //3초로 제한
     );
 
     _animation = Tween<double>(begin: 1.0, end: 0.0).animate(
