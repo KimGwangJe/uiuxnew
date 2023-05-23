@@ -91,7 +91,7 @@ class _Tools extends State<Tools> {
 
   Future<void> generateText(String prompt) async {
     String model = "text-davinci-003";
-    String apiKey = "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";
+    String apiKey = "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";
 
     var response = await http.post(
       Uri.parse('https://api.openai.com/v1/engines/$model/completions'),
@@ -176,14 +176,15 @@ class _Tools extends State<Tools> {
             body: Stack(
               children: [
                 Container(
-                  height: MediaQuery.of(context).size.height +
-                      100, // Stack 안에서 전체 화면을 차지하도록 설정
+                  height: MediaQuery.of(context)
+                      .size
+                      .height, // Stack 안에서 전체 화면을 차지하도록 설정
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
                         Container(
                           height: MediaQuery.of(context).size.height +
-                              100, // 높이를 제한합니다.
+                              150, // 높이를 제한합니다.
                           child: gptquery == ''
                               ? FirstScreen() // 질문이 아직 없다면 처음 화면만을 보여줍니다.
                               : Column(
