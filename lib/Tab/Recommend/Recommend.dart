@@ -20,7 +20,7 @@ class _Recommend extends State<Recommend> {
 
   Future<void> generateText(String prompt) async {
     String model = "text-davinci-003";
-    String apiKey = "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";
+    String apiKey = "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";
 
     var response = await http.post(
       Uri.parse('https://api.openai.com/v1/engines/$model/completions'),
