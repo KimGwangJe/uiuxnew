@@ -26,7 +26,73 @@ dev_dependencies:
 flutter:
 
   assets:
-    - assets/images/
+    - assets/images/AJAX.png
+    - assets/images/ANDROID.PNG
+    - assets/images/ANGULAR.png
+    - assets/images/ANGULARJS.PNG
+    - assets/images/APACHE.PNG
+    - assets/images/APPMAKER.PNG
+    - assets/images/AS.png
+    - assets/images/ASPENT.PNG
+    - assets/images/BOOTSTRAP.png
+    - assets/images/C.PNG
+    - assets/images/CAFEE.PNG
+    - assets/images/CAFFE.PNG
+    - assets/images/CHAINER.PNG
+    - assets/images/CHATGPT.png
+    - assets/images/CNTK.PNG
+    - assets/images/CORDOVA.PNG
+    - assets/images/CORONA.PNG
+    - assets/images/CSS.png
+    - assets/images/DIANGO.png
+    - assets/images/DLIB.PNG
+    - assets/images/FIREBASE.PNG
+    - assets/images/flask.png
+    - assets/images/GO.PNG
+    - assets/images/flutter.png
+    - assets/images/HTML.png
+    - assets/images/IONIC.PNG
+    - assets/images/IOS.PNG
+    - assets/images/JAVA.PNG
+    - assets/images/JAVASCRIPT.png
+    - assets/images/JQUERY.png
+    - assets/images/JS.png
+    - assets/images/KERAS.PNG
+    - assets/images/KODING.PNG
+    - assets/images/KOTLIN.PNG
+    - assets/images/LOS.PNG
+    - assets/images/MXNET.PNG
+    - assets/images/MYSQL.png
+    - assets/images/NATIVE.PNG
+    - assets/images/new.png
+    - assets/images/new2.png
+    - assets/images/NGINX.PNG
+    - assets/images/NODE.png
+    - assets/images/NODEJS.PNG
+    - assets/images/OBJECTIVEC.PNG
+    - assets/images/php.png
+    - assets/images/PYTHON.PNG
+    - assets/images/PYTORCH.PNG
+    - assets/images/react.png
+    - assets/images/REACTNATIVE.png
+    - assets/images/RUBY.png
+    - assets/images/SCIKITLEARN.PNG
+    - assets/images/SDK.PNG
+    - assets/images/spring.png
+    - assets/images/SQL.PNG
+    - assets/images/STROYBOARD.PNG
+    - assets/images/STUDIO.PNG
+    - assets/images/SVELTE.png
+    - assets/images/SWIFT.PNG
+    - assets/images/TENSORFLOW.PNG
+    - assets/images/THEANO.PNG
+    - assets/images/UIKIT.PNG
+    - assets/images/UNITY.PNG
+    - assets/images/VISUAL.PNG
+    - assets/images/vue.png
+    - assets/images/WORDPRESS.png
+    - assets/images/XCODE.PNG
+
   fonts:
     - family: Gmarket
       fonts:
