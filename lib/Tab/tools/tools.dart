@@ -91,7 +91,7 @@ class _Tools extends State<Tools> {
 
   Future<void> generateText(String prompt) async {
     String model = "text-davinci-003";
-    String apiKey = "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";
+    String apiKey = "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";
 
     var response = await http.post(
       Uri.parse('https://api.openai.com/v1/engines/$model/completions'),
@@ -175,71 +175,77 @@ class _Tools extends State<Tools> {
             ),
             body: Stack(
               children: [
-                Expanded(
+                Container(
+                  height: MediaQuery.of(context).size.height +
+                      100, // Stack 안에서 전체 화면을 차지하도록 설정
                   child: SingleChildScrollView(
-                    child: Column(children: [
-                      Container(
-                        height: MediaQuery.of(context).size.height -
-                            50, // 높이를 제한합니다.
-                        child: gptquery == ''
-                            ? FirstScreen() //질문이 아직 없다면 처음 화면만을 보여준다.
-                            : Column(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 8.0),
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        color: Colors.black26,
-                                        borderRadius:
-                                            BorderRadius.circular(10.0),
-                                      ),
-                                      width: MediaQuery.of(context).size.width /
-                                          1.2,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text(
-                                          '$gptquery',
-                                          style: TextStyle(
-                                              fontSize: 20,
-                                              color: Colors.white,
-                                              fontFamily: 'Jamsil'),
+                    child: Column(
+                      children: [
+                        Container(
+                          height: MediaQuery.of(context).size.height +
+                              100, // 높이를 제한합니다.
+                          child: gptquery == ''
+                              ? FirstScreen() // 질문이 아직 없다면 처음 화면만을 보여줍니다.
+                              : Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 8.0),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: Colors.black26,
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                        ),
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                1.2,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(
+                                            '$gptquery',
+                                            style: TextStyle(
+                                                fontSize: 20,
+                                                color: Colors.white,
+                                                fontFamily: 'Jamsil'),
+                                          ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 15.0),
-                                    child: Container(
-                                      width: MediaQuery.of(context).size.width,
-                                      child: Padding(
-                                        padding:
-                                            const EdgeInsets.only(top: 12.0),
-                                        child: Column(
-                                          children: [
-                                            for (String keyword
-                                                in generatedKeywords)
-                                              if (checkImageName(keyword))
-                                                Column(
-                                                  children: [
-                                                    Image.asset(
-                                                      'assets/images/$keyword.png',
-                                                      width: 200,
-                                                      height: 100,
-                                                    ),
-                                                    SizedBox(
-                                                        height:
-                                                            20), // 이미지들 사이의 간격을 설정합니다.
-                                                  ],
-                                                ),
-                                          ],
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 15.0),
+                                      child: Container(
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        child: Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 12.0),
+                                          child: Column(
+                                            children: [
+                                              for (String keyword
+                                                  in generatedKeywords)
+                                                if (checkImageName(keyword))
+                                                  Column(
+                                                    children: [
+                                                      Image.asset(
+                                                        'assets/images/$keyword.png',
+                                                        width: 200,
+                                                        height: 100,
+                                                      ),
+                                                      SizedBox(
+                                                        height: 20,
+                                                      ), // 이미지들 사이의 간격을 설정합니다.
+                                                    ],
+                                                  ),
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                      ),
-                    ]),
+                                  ],
+                                ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 Positioned(
