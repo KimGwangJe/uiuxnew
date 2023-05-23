@@ -77,7 +77,7 @@ class _CameraMain extends State<CameraMain> {
     //GPT API로 추출된코드에 주석,오류수정을 하는함수
     final String model = 'text-davinci-003'; //사용할 gpt api의 모델명
     final String apiKey =
-        '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'; //gpt api를 사용하기위한 apikey
+        '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'; //gpt api를 사용하기위한 apikey
 
     final http.Response response = await http.post(
       //url에 저장된 주소로 요청을 보냄
