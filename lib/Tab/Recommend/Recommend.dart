@@ -13,10 +13,9 @@ class Recommend extends StatefulWidget {
 
 class _Recommend extends State<Recommend> {
   String gptquery = ''; //버튼을 누를시 textfield값을 변경
-  final TextEditingController _textController = TextEditingController();
-  String _generatedText = "";
-  String _textValue = "";
-  bool showActivityIndicator = false; //indicator
+  String _generatedText = ""; //gpt의 대답
+  String _textValue = ""; //사용자 요구사항
+  bool showActivityIndicator = false; //indicator 여부 초기값은 false
 
   Future<void> generateText(String prompt) async {
     String model = "text-davinci-003";
@@ -49,9 +48,10 @@ class _Recommend extends State<Recommend> {
   }
 
   void indicate() {
+    //대답이 아직 오지 않았다면 indicator가 돌아 갈 수 있게 해준다
     if (_generatedText == '') {
       setState(() {
-        showActivityIndicator = true;
+        showActivityIndicator = true; //indicator 여부를 true로 변경
       });
     }
   }
@@ -69,9 +69,9 @@ class _Recommend extends State<Recommend> {
         ),
         darkTheme: ThemeData.light(),
         home: Scaffold(
-          resizeToAvoidBottomInset: true,
+          resizeToAvoidBottomInset: true, //키보드가 올라올때 화면이 같이 올라오게됨
           appBar: AppBar(
-            centerTitle: true,
+            centerTitle: true, //글자 중앙에 위치시킴
             title: Text(
               '추천',
               style: TextStyle(color: Colors.white),
@@ -85,11 +85,13 @@ class _Recommend extends State<Recommend> {
                 child: Column(
                   children: [
                     Container(
-                      height: MediaQuery.of(context).size.height - 50,
+                      height: MediaQuery.of(context).size.height -
+                          50, //전체 디바이스 세로길이에서 bottomtab의 높이인 50을 뺌
                       child: (Column(children: [
                         Container(
-                          width: MediaQuery.of(context).size.width,
-                          child: gptquery == '' //질문을 입력하지 않았다면
+                          width:
+                              MediaQuery.of(context).size.width, //전체 디바이스 가로길이
+                          child: gptquery == '' //아직 질문을 안했다면
                               ? Column(
                                   children: [
                                     Padding(
@@ -100,7 +102,7 @@ class _Recommend extends State<Recommend> {
                                         style: TextStyle(
                                             fontSize: 35,
                                             fontWeight: FontWeight.bold,
-                                            fontFamily: 'Jamsil'),
+                                            fontFamily: 'Jamsil'), //font를 가져옴
                                       ),
                                     ),
                                     Container(
@@ -115,7 +117,7 @@ class _Recommend extends State<Recommend> {
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                               fontSize: 20,
-                                              fontFamily: 'Jamsil'),
+                                              fontFamily: 'Jamsil'), //font를 가져옴
                                         ),
                                       ),
                                     ),
@@ -133,7 +135,8 @@ class _Recommend extends State<Recommend> {
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                                 fontSize: 20,
-                                                fontFamily: 'Jamsil'),
+                                                fontFamily:
+                                                    'Jamsil'), //font를 가져옴
                                           ),
                                         ),
                                       ),
@@ -146,7 +149,7 @@ class _Recommend extends State<Recommend> {
                                         style: TextStyle(
                                             fontSize: 30,
                                             fontWeight: FontWeight.bold,
-                                            fontFamily: 'Jamsil'),
+                                            fontFamily: 'Jamsil'), //font를 가져옴
                                       ),
                                     ),
                                     Container(
@@ -161,7 +164,7 @@ class _Recommend extends State<Recommend> {
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                               fontSize: 20,
-                                              fontFamily: 'Jamsil'),
+                                              fontFamily: 'Jamsil'), //font를 가져옴
                                         ),
                                       ),
                                     ),
@@ -179,7 +182,8 @@ class _Recommend extends State<Recommend> {
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                                 fontSize: 20,
-                                                fontFamily: 'Jamsil'),
+                                                fontFamily:
+                                                    'Jamsil'), //font를 가져옴
                                           ),
                                         ),
                                       ),
@@ -188,8 +192,11 @@ class _Recommend extends State<Recommend> {
                                 )
                               : Container(
                                   //질문이 전송되었다면
-                                  width: MediaQuery.of(context).size.width,
+                                  width: MediaQuery.of(context)
+                                      .size
+                                      .width, //디바이스 전체 가로 길이
                                   child: SingleChildScrollView(
+                                    //스크롤 가능하게
                                     child: Column(
                                       children: [
                                         Padding(
@@ -199,15 +206,16 @@ class _Recommend extends State<Recommend> {
                                             decoration: BoxDecoration(
                                               color: Colors.white,
                                               borderRadius:
-                                                  BorderRadius.circular(10.0),
+                                                  BorderRadius.circular(
+                                                      10.0), //둥글기 10으로 지정
                                               boxShadow: [
                                                 BoxShadow(
-                                                  color: Colors.grey
-                                                      .withOpacity(0.2),
-                                                  spreadRadius: 5,
-                                                  blurRadius: 7,
-                                                  offset: Offset(0,
-                                                      3), // changes position of shadow
+                                                  color: Colors.grey.withOpacity(
+                                                      0.2), //그림자의 색상 및 투명도 0.2
+                                                  spreadRadius: 5, //그림자의 확산 반경
+                                                  blurRadius: 7, //그림자의 흐림 반경
+                                                  offset:
+                                                      Offset(0, 3), //그림자의 위치
                                                 ),
                                               ],
                                             ),
@@ -239,12 +247,12 @@ class _Recommend extends State<Recommend> {
                                                       10.0), //둥글기
                                               boxShadow: [
                                                 BoxShadow(
-                                                  //container의 그림자 설정
-                                                  color: Colors.grey
-                                                      .withOpacity(0.2),
-                                                  spreadRadius: 5,
-                                                  blurRadius: 7,
-                                                  offset: Offset(0, 3),
+                                                  color: Colors.grey.withOpacity(
+                                                      0.2), //그림자의 색상 및 투명도 0.2
+                                                  spreadRadius: 5, //그림자의 확산 반경
+                                                  blurRadius: 7, //그림자의 흐림 반경
+                                                  offset:
+                                                      Offset(0, 3), //그림자의 위치
                                                 ),
                                               ],
                                             ),
@@ -260,7 +268,8 @@ class _Recommend extends State<Recommend> {
                                                 style: TextStyle(
                                                     fontSize: 20,
                                                     color: Colors.white,
-                                                    fontFamily: 'Jamsil'),
+                                                    fontFamily:
+                                                        'Jamsil'), //font를 가져옴
                                               ),
                                             ),
                                           ),
@@ -276,7 +285,7 @@ class _Recommend extends State<Recommend> {
                 ),
               ),
               Positioned(
-                //화면 제일 아래에 고정
+                //textfield를 화면 제일 아래에 고정
                 left: 0,
                 right: 0,
                 bottom: 0,
@@ -291,7 +300,7 @@ class _Recommend extends State<Recommend> {
                           child: TextField(
                             onChanged: (value) {
                               setState(() {
-                                _textValue = value;
+                                _textValue = value; //입력되는 값을 변수에 저장
                               });
                             },
                             decoration: InputDecoration(
@@ -302,8 +311,10 @@ class _Recommend extends State<Recommend> {
                         ),
                       ),
                       GestureDetector(
+                        //아이콘이 터치가 가능하게 해줌
                         onTap: () {
                           if (_textValue != '') {
+                            //textfield가 비어있지 않다면 실행시킴
                             setState(() {
                               gptquery = _textValue +
                                   '을(를) 위해 사용 할 수 있는\n변수, 클래스, 함수명을\n 각각 3개씩 보여드리겠습니다.'; //화면에 보여줄
@@ -320,16 +331,20 @@ class _Recommend extends State<Recommend> {
                         child: Padding(
                           padding: const EdgeInsets.only(right: 8.0),
                           child: AnimatedSwitcher(
-                            duration: Duration(milliseconds: 300),
+                            //애니메이션 전환을 수행
+                            duration:
+                                Duration(milliseconds: 300), //0.3초동안 애니메이션
                             switchInCurve: Curves.easeIn,
                             switchOutCurve: Curves.easeOut,
                             transitionBuilder: (child, animation) {
+                              //전환 애니메이션에 사용되는 커스텀 트랜지션을 정의
                               return ScaleTransition(
+                                //크기 변환
                                 scale: animation,
                                 child: child,
                               );
                             },
-                            child: _generatedText.isEmpty
+                            child: _generatedText.isEmpty //아직 답변이 없는가?
                                 ? showActivityIndicator //true라면 indicator를 돌린다.
                                     ? CupertinoActivityIndicator()
                                     : Icon(
@@ -338,7 +353,6 @@ class _Recommend extends State<Recommend> {
                                         color: Colors.black,
                                       )
                                 : Icon(
-                                    //비어있지 않다면 다시 질문 가능!
                                     CupertinoIcons.paperplane,
                                     color: Colors.black,
                                   ),

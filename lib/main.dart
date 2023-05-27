@@ -21,7 +21,7 @@ class SplashScreen extends StatelessWidget {
             'assets/images/new2.png',
             height: 300,
             width: MediaQuery.of(context).size.width,
-          ), // 로고 이미지를 표시
+          ), // 로고 이미지를 표시합니다
         ),
       ),
     );
@@ -36,18 +36,19 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyApp extends State<MyApp> with SingleTickerProviderStateMixin {
-  late AnimationController _animationController;
-  late Animation<double> _animation;
+  late AnimationController _animationController; //지속시간 관리
+  late Animation<double> _animation; //애니메이션 제어
   int _selectedIndex = 0;
 
   final List<Widget> _widgetOptions = [
-    Home(),
-    Recommend(),
-    CameraMain(),
-    Tools(),
+    Home(), //홈
+    Recommend(), //이름추천
+    CameraMain(), //오류 or 주석처리
+    Tools(), //툴 추천
   ];
 
   void _onItemTapped(int index) {
+    //해당 index가 화면에 표시
     setState(() {
       _selectedIndex = index;
     });
@@ -59,13 +60,14 @@ class _MyApp extends State<MyApp> with SingleTickerProviderStateMixin {
 
     _animationController = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 3), //3초로 제한
+      duration: const Duration(seconds: 3), //애니메이션 지속 시간을 3초로 설정
     );
 
     _animation = Tween<double>(begin: 1.0, end: 0.0).animate(
         CurvedAnimation(parent: _animationController, curve: Curves.ease));
 
     _animationController.forward().then((_) {
+      //애니메이션이 끝나면 초기 선택된 탭을 설정하기 위한 로직
       setState(() {
         _selectedIndex = 0;
       });
@@ -89,8 +91,9 @@ class _MyApp extends State<MyApp> with SingleTickerProviderStateMixin {
       home: Scaffold(
         resizeToAvoidBottomInset: false,
         body: _animation.isCompleted
-            ? _widgetOptions.elementAt(_selectedIndex)
+            ? _widgetOptions.elementAt(_selectedIndex) //탭 위젯 보여줌
             : AnimatedBuilder(
+                //애니메이션
                 animation: _animationController,
                 builder: (BuildContext context, Widget? child) {
                   return Opacity(
@@ -144,11 +147,11 @@ class _MyApp extends State<MyApp> with SingleTickerProviderStateMixin {
               label: 'tool',
             ),
           ],
-          currentIndex: _selectedIndex,
-          selectedItemColor: Colors.black,
-          onTap: _onItemTapped,
-          showSelectedLabels: false,
-          showUnselectedLabels: false,
+          currentIndex: _selectedIndex, //현재 선택된 탭의 인덱스를 설정
+          selectedItemColor: Colors.black, //선택된 탭의 아이템 색상을 지정
+          onTap: _onItemTapped, //탭이 선택되었을 때 호출되는 콜백 함수
+          showSelectedLabels: false, //선택된 탭의 라벨을 표시할지 여부
+          showUnselectedLabels: false, //선택되지 않은 탭의 라벨을 표시할지 여부
         ),
       ),
     );

@@ -121,8 +121,10 @@ class _CameraMain extends State<CameraMain> {
         backgroundColor: Color.fromRGBO(73, 73, 73, 1),
       ),
       body: Stack(
+        //container에 container를 쌓기위해 사용
         children: [
           Positioned.fill(
+            //부모 위젯의 영역을 채우는 형태로 자식 위젯을 배치
             child: Container(
               height: MediaQuery.of(context).size.height, //최대 height
               width: MediaQuery.of(context).size.width, //최대 width
@@ -135,14 +137,14 @@ class _CameraMain extends State<CameraMain> {
                       child: Container(
                         decoration: BoxDecoration(
                           color: Colors.white,
-                          borderRadius: BorderRadius.circular(10.0),
+                          borderRadius: BorderRadius.circular(10.0), //둥글기 지정
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.grey.withOpacity(0.2),
-                              spreadRadius: 5,
-                              blurRadius: 7,
-                              offset:
-                                  Offset(0, 3), // changes position of shadow
+                              color: Colors.grey
+                                  .withOpacity(0.2), //그림자의 색상 및 투명도 0.2
+                              spreadRadius: 5, //그림자의 확산 반경
+                              blurRadius: 7, //그림자의 흐림 반경
+                              offset: Offset(0, 3), //그림자의 위치
                             ),
                           ],
                         ),
@@ -154,7 +156,7 @@ class _CameraMain extends State<CameraMain> {
                             style: TextStyle(
                                 fontSize: 20,
                                 color: Colors.black,
-                                fontFamily: 'Gmarket'),
+                                fontFamily: 'Gmarket'), //폰트지정
                           ),
                         ),
                       ),
@@ -167,18 +169,18 @@ class _CameraMain extends State<CameraMain> {
                           borderRadius: BorderRadius.circular(10.0),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.grey.withOpacity(0.2),
-                              spreadRadius: 5,
-                              blurRadius: 7,
-                              offset:
-                                  Offset(0, 3), // changes position of shadow
+                              color: Colors.grey
+                                  .withOpacity(0.2), //그림자의 색상 및 투명도 0.2
+                              spreadRadius: 5, //그림자의 확산 반경
+                              blurRadius: 7, //그림자의 흐림 반경
+                              offset: Offset(0, 3), //그림자의 위치
                             ),
                           ],
                         ),
                         width: MediaQuery.of(context).size.width / 1.2,
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: _isLoading
+                          child: _isLoading //아직 로딩중인가?
                               ? CupertinoActivityIndicator() // showActivityIndicator를 표시하는 위젯을 여기에 추가
                               : Text(
                                   _aftergptText,
@@ -198,8 +200,8 @@ class _CameraMain extends State<CameraMain> {
           ),
           AnimatedPositioned(
             // 올라오는 화면의 애니메이션 지정
-            duration: Duration(milliseconds: 500),
-            curve: Curves.easeInOut,
+            duration: Duration(milliseconds: 500), //애니메이션의 지속 시간
+            curve: Curves.easeInOut, //애니메이션의 커브
             bottom: 0,
             left: 0,
             right: 0,
@@ -208,25 +210,27 @@ class _CameraMain extends State<CameraMain> {
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(30.0),
-                  topRight: Radius.circular(30.0),
+                  topLeft: Radius.circular(30.0), //좌측상단 둥글기
+                  topRight: Radius.circular(30.0), //우측상단 둥글기
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.grey.withOpacity(0.8),
-                    spreadRadius: 2,
-                    blurRadius: 10,
-                    offset: Offset(0, 3),
+                    color: Colors.grey.withOpacity(0.8), //그림자의 색상 및 투명도 0.8
+                    spreadRadius: 2, //그림자의 확산 반경
+                    blurRadius: 10, //그림자의 흐림 반경
+                    offset: Offset(0, 3), //그림자의 위치
                   ),
                 ],
               ),
               constraints: BoxConstraints(
-                minHeight: 40,
-                maxHeight: 550,
+                //위젯의 크기 제약
+                minHeight: 40, //최소 40
+                maxHeight: 550, //최대 550
               ),
               child: Column(
                 children: [
                   GestureDetector(
+                    //터치 가능하게 해줌
                     onTap: () {
                       setState(() {
                         if (_isSecondContainerOpen) {
@@ -238,7 +242,8 @@ class _CameraMain extends State<CameraMain> {
                         }
                       });
                     },
-                    child: _isSecondContainerOpen == false
+                    child: _isSecondContainerOpen ==
+                            false //conatiner가 올라왔는지를 확인 후 아이콘을 바꿔줌
                         ? Icon(
                             Icons.keyboard_arrow_up_rounded,
                             size: 35, //닫혔을때는 올라가는 버튼모양
@@ -251,8 +256,8 @@ class _CameraMain extends State<CameraMain> {
                   Expanded(
                     child: SingleChildScrollView(
                       child: AnimatedContainer(
-                        duration: Duration(milliseconds: 500),
-                        curve: Curves.easeInOut,
+                        duration: Duration(milliseconds: 500), //애니메이션의 지속 시간
+                        curve: Curves.easeInOut, //애니메이션의 커브를 설정
                         child: Padding(
                           padding: const EdgeInsets.only(top: 8.0),
                           child: Column(
@@ -264,8 +269,8 @@ class _CameraMain extends State<CameraMain> {
                                   'Warning',
                                   style: TextStyle(
                                       fontSize: 35,
-                                      fontWeight: FontWeight.bold,
-                                      fontFamily: 'Jamsil'),
+                                      fontWeight: FontWeight.bold, //글씨 두께
+                                      fontFamily: 'Jamsil'), //폰트지정
                                 ),
                               ),
                               Container(
@@ -276,9 +281,10 @@ class _CameraMain extends State<CameraMain> {
                                   padding: const EdgeInsets.only(top: 8.0),
                                   child: Text(
                                     '코드에 줄번호가 같이 인식 될 시 \n텍스트가 정상적으로 추출 되지 않을 수 있습니다.',
-                                    textAlign: TextAlign.center,
+                                    textAlign: TextAlign.center, //중앙정렬
                                     style: TextStyle(
-                                        fontSize: 17, fontFamily: 'Jamsil'),
+                                        fontSize: 17,
+                                        fontFamily: 'Jamsil'), //폰트 설정
                                   ),
                                 ),
                               ),
@@ -292,9 +298,10 @@ class _CameraMain extends State<CameraMain> {
                                     padding: const EdgeInsets.only(top: 8.0),
                                     child: Text(
                                       '주석이 이미 달려있는 코드를 인식 할 시 \n텍스트가 정상적으로 추출 되지 않을 수 있습니다.',
-                                      textAlign: TextAlign.center,
+                                      textAlign: TextAlign.center, //중앙 정렬
                                       style: TextStyle(
-                                          fontSize: 17, fontFamily: 'Jamsil'),
+                                          fontSize: 17,
+                                          fontFamily: 'Jamsil'), //폰트 설정
                                     ),
                                   ),
                                 ),
@@ -305,8 +312,11 @@ class _CameraMain extends State<CameraMain> {
                                   height: 62,
                                   child: ElevatedButton(
                                     style: ElevatedButton.styleFrom(
-                                      primary: Color.fromRGBO(73, 73, 73, 1),
+                                      //버튼 스타일
+                                      primary:
+                                          Color.fromRGBO(73, 73, 73, 1), //색상
                                       shape: RoundedRectangleBorder(
+                                        //동그란 버튼으로 만들어줌
                                         borderRadius:
                                             BorderRadius.circular(80.0),
                                       ),
@@ -317,6 +327,7 @@ class _CameraMain extends State<CameraMain> {
                                         builder: (context) {
                                           return Dialog(
                                             shape: RoundedRectangleBorder(
+                                              //다잉얼로그의 모양
                                               borderRadius:
                                                   BorderRadius.circular(20.0),
                                             ),
@@ -325,7 +336,8 @@ class _CameraMain extends State<CameraMain> {
                                               width: 300,
                                               decoration: BoxDecoration(
                                                 borderRadius:
-                                                    BorderRadius.circular(20.0),
+                                                    BorderRadius.circular(
+                                                        20.0), //둥글기 지정
                                               ),
                                               child: Column(
                                                 children: [
@@ -347,7 +359,7 @@ class _CameraMain extends State<CameraMain> {
                                                             fontWeight:
                                                                 FontWeight.bold,
                                                             fontFamily:
-                                                                'Gmarket'),
+                                                                'Gmarket'), //폰트 설정
                                                       ),
                                                     ),
                                                   ),
@@ -424,7 +436,7 @@ class _CameraMain extends State<CameraMain> {
                                                           child: Row(
                                                             mainAxisAlignment:
                                                                 MainAxisAlignment
-                                                                    .center,
+                                                                    .center, //중앙정렬
                                                             children: [
                                                               const Icon(
                                                                 CupertinoIcons
@@ -518,7 +530,7 @@ class _CameraMain extends State<CameraMain> {
                                                                     fontSize:
                                                                         20,
                                                                     fontFamily:
-                                                                        'Gmarket'),
+                                                                        'Gmarket'), //폰트지정
                                                               ),
                                                             ],
                                                           ),

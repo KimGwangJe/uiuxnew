@@ -27,6 +27,7 @@ class _Home extends State<Home> {
               Padding(
                 padding: const EdgeInsets.only(top: 50.0, bottom: 10),
                 child: Image.asset(
+                  //홈 화면의 아이콘 설정
                   'assets/images/new.png',
                   height: 300,
                   width: MediaQuery.of(context).size.width,
@@ -36,18 +37,19 @@ class _Home extends State<Home> {
                 padding: const EdgeInsets.all(15),
                 child: Container(
                   height: 40,
-                  width: MediaQuery.of(context).size.width,
+                  width: MediaQuery.of(context).size.width, //디바이스 전체 가로 길이
                   decoration: BoxDecoration(
                     border: Border.all(
+                      //container의 border을 지정한다 두께 2
                       width: 2,
                       color: Colors.black,
                     ),
-                    borderRadius: BorderRadius.circular(10.0),
+                    borderRadius: BorderRadius.circular(10.0), //둥글기를 지정
                   ),
                   child: Padding(
                     padding: const EdgeInsets.only(top: 7.0),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center, //중앙으로 모음
                       children: [
                         const Icon(
                           CupertinoIcons.chevron_left_slash_chevron_right,
@@ -67,18 +69,19 @@ class _Home extends State<Home> {
                 padding: const EdgeInsets.all(15),
                 child: Container(
                   height: 40,
-                  width: MediaQuery.of(context).size.width,
+                  width: MediaQuery.of(context).size.width, //디바이스 전체 가로 길이
                   decoration: BoxDecoration(
                     border: Border.all(
+                      //container의 border을 지정한다 두께 2
                       width: 2,
                       color: Colors.black,
                     ),
-                    borderRadius: BorderRadius.circular(10.0),
+                    borderRadius: BorderRadius.circular(10.0), //둥글기를 지정
                   ),
                   child: Padding(
                     padding: const EdgeInsets.only(top: 7.0),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center, //중앙으로 모음
                       children: [
                         const Icon(CupertinoIcons.camera, color: Colors.black),
                         Text(
@@ -95,9 +98,10 @@ class _Home extends State<Home> {
                 padding: const EdgeInsets.all(15),
                 child: Container(
                   height: 40,
-                  width: MediaQuery.of(context).size.width,
+                  width: MediaQuery.of(context).size.width, //디바이스 전체 가로 길이
                   decoration: BoxDecoration(
                     border: Border.all(
+                      //container의 border 두께 2
                       width: 2,
                       color: Colors.black,
                     ),
@@ -106,7 +110,7 @@ class _Home extends State<Home> {
                   child: Padding(
                     padding: const EdgeInsets.only(top: 7.0),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center, //중앙 정렬
                       children: [
                         const Icon(
                           CupertinoIcons.hammer,

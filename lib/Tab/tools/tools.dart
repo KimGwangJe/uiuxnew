@@ -14,16 +14,15 @@ class Tools extends StatefulWidget {
 }
 
 class _Tools extends State<Tools> {
-  List<toolItems> tool = List.empty(growable: true);
+  List<toolItems> tool = List.empty(growable: true); //하드코딩으로 넣은 툴들을 관리 해 줄 리스트
   String gptquery = ''; //버튼을 누를시 textfield값을 변경
-  final FocusNode _focusNode = FocusNode();
-  bool _isKeyboardVisible = false;
-  final TextEditingController _textController = TextEditingController();
-  String _generatedText = "";
-  String _textValue = "";
+  final FocusNode _focusNode = FocusNode(); //키보드 올라왔는지 여부
+  String _generatedText = ""; //반환 메시지
+  String _textValue = ""; //textfield로 받은 텍스트
   bool showActivityIndicator = false; //indicator
   List<String> generatedKeywords = [];
   List<String> imageNames = [
+    //하드코딩으로 값을 미리 넣어놓는다
     'assets/images/chatgpt.png',
     'assets/images/ajax.png',
     'assets/images/android.png',
@@ -154,7 +153,7 @@ class _Tools extends State<Tools> {
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: () {
-          FocusManager.instance.primaryFocus?.unfocus();
+          FocusManager.instance.primaryFocus?.unfocus(); //주변 누르면 키보드 내려감
         },
         child: MaterialApp(
           title: "개발 툴 추천",
@@ -252,7 +251,7 @@ class _Tools extends State<Tools> {
                 Positioned(
                   left: 0,
                   right: 0,
-                  bottom: _isKeyboardVisible ? 0 : 0, //이거 만져봐라
+                  bottom: 0, //이거 만져봐라
                   child: Container(
                     color: Colors.white,
                     height: 50,
@@ -262,10 +261,10 @@ class _Tools extends State<Tools> {
                           child: Padding(
                             padding: const EdgeInsets.only(right: 8.0),
                             child: TextField(
-                              focusNode: _focusNode,
+                              focusNode: _focusNode, //키보드 여부
                               onChanged: (value) {
                                 setState(() {
-                                  _textValue = value;
+                                  _textValue = value; //입력된 값을 변수에 저장
                                 });
                               },
                               decoration: InputDecoration(
@@ -278,7 +277,7 @@ class _Tools extends State<Tools> {
                         GestureDetector(
                           onTap: () {
                             _textValue == ''
-                                ? print('asd')
+                                ? print('')
                                 : setState(() {
                                     gptquery = _textValue +
                                         '을 위해 사용 할 수 있는\n툴을 사용자들이 선호하는 순서로\n 보여드리겠습니다.';
@@ -286,26 +285,32 @@ class _Tools extends State<Tools> {
                                     String prompt =
                                         "사용자가 적은 질문: ${_textValue}\n을(를) 만들기 위해 사용할 수 있는 툴을 사용자들이 선호하는 키워드만 (대문자로) 해 주고 6개 만 적어줘";
                                     generateText(prompt);
-                                    showActivityIndicator = true;
+                                    showActivityIndicator =
+                                        true; //indicator를 돌려라
                                   });
                             FocusScope.of(context).unfocus();
                           },
                           child: Padding(
                             padding: const EdgeInsets.only(right: 8.0),
                             child: AnimatedSwitcher(
-                              duration: Duration(milliseconds: 300),
+                              //애니메이션 전환을 수행
+                              duration:
+                                  Duration(milliseconds: 300), //0.3초동안 애니메이션
                               switchInCurve: Curves.easeIn,
                               switchOutCurve: Curves.easeOut,
                               transitionBuilder: (child, animation) {
+                                //전환 애니메이션에 사용되는 커스텀 트랜지션을 정의
                                 return ScaleTransition(
+                                  //크기 변환
                                   scale: animation,
                                   child: child,
                                 );
                               },
-                              child: generatedKeywords.isEmpty
-                                  ? showActivityIndicator
+                              child: generatedKeywords.isEmpty //아직 답변이 없는가?
+                                  ? showActivityIndicator //true라면 indicator를 돌린다.
                                       ? CupertinoActivityIndicator()
                                       : Icon(
+                                          //false라면 사용자가 질문을 할 수 있는 버튼으로 바꾼다.
                                           CupertinoIcons.paperplane,
                                           color: Colors.black,
                                         )
